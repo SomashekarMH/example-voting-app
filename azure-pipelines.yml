@@ -77,7 +77,7 @@ stages:
   dependsOn: Push
   jobs:
   - deployment: VMDeploy
-    displayName: "Deploy image from ACR to VM"
+    displayName: "Deploy app from ACR to VM"
     environment: 'production'   # optional, can be any environment name
     strategy:
       runOnce:
