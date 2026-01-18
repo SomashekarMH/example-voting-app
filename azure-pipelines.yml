@@ -43,6 +43,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+          latest
 
 #***************************************************************************************
 #                        PUSH STAGE
@@ -61,7 +62,7 @@ stages:
     - task: Docker@2
       displayName: Push an image to ACR
       inputs:
-        command: Push
+        command: push
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
@@ -84,17 +85,17 @@ stages:
           steps:
           - task: AzureCLI@2
             inputs:
-              azureSubscription: 'Academics-Pay-As-You-Go'
+              azureSubscription: 'a4d417d6-4b7d-4dbc-8702-15f88c83dc21'
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
               inlineScript: |
                 echo "Logging into ACR..."
-                az acr login --name somuacr.azurecr.io
+                az acr login --name somuacr
                 echo "Pulling image..."
-                docker pull somuacr.azurecr.io/somuvotingapp:latest
+                docker pull somuacr.azurecr.io/somuvotingapp:$(Build.BuildId)
                 echo "Deploying image to VM..."
                 az vm run-command invoke \
                   --resource-group somumh \
                   --name somuba \
                   --command-id RunShellScript \
-                  --scripts "docker run -d -p 5050:80 somuacr.azurecr.io/somuvotingapp:latest"
+                  --scripts "docker run -d -p 5050:80 somuacr.azurecr.io/somuvotingapp:$(Build.BuildId)"
