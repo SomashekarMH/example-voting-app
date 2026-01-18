@@ -71,32 +71,30 @@ stages:
 #***************************************************************************************
 #                        DEPLOY STAGE
 #***************************************************************************************          
-# - stage: DeployToVM
-#   displayName: "Deploy container image to VM"
-#   dependsOn: Push
-#   jobs:
-#   - deployment: VMDeploy
-#     displayName: "Deploy image from ACR to VM"
-#     environment: 'production'   # optional, can be any environment name
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
-#           - task: AzureCLI@2
-#             inputs:
-#               azureSubscription: 'Academics-Pay-As-You-Go'
-#               scriptType: 'bash'
-#               scriptLocation: 'inlineScript'
-#               inlineScript: |
-#                 echo "Logging into ACR..."
-#                 az acr login --name somuacr.azurecr.io
-
-#                 echo "Pulling image..."
-#                 docker pull somuacr.azurecr.io/somuvotingapp:latest
-
-#                 echo "Deploying image to VM..."
-#                 az vm run-command invoke \
-#                   --resource-group somumh \
-#                   --name somuba \
-#                   --command-id RunShellScript \
-#                   --scripts "docker run -d -p 5050:80 somuacr.azurecr.io/somuvotingapp:latest"
+- stage: DeployToVM
+  displayName: "Deploy container image to VM"
+  dependsOn: Push
+  jobs:
+  - deployment: VMDeploy
+    displayName: "Deploy image from ACR to VM"
+    environment: 'production'   # optional, can be any environment name
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: 'Academics-Pay-As-You-Go'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                echo "Logging into ACR..."
+                az acr login --name somuacr.azurecr.io
+                echo "Pulling image..."
+                docker pull somuacr.azurecr.io/somuvotingapp:latest
+                echo "Deploying image to VM..."
+                az vm run-command invoke \
+                  --resource-group somumh \
+                  --name somuba \
+                  --command-id RunShellScript \
+                  --scripts "docker run -d -p 5050:80 somuacr.azurecr.io/somuvotingapp:latest"
