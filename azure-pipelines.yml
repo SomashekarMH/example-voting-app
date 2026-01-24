@@ -10,7 +10,7 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '80cec882-05c2-4cca-9849-9807fe9055e0'
+  dockerRegistryServiceConnection: 'a4d417d6-4b7d-4dbc-8702-15f88c83dc21'
   imageRepository: 'somuvotingapp'
   containerRegistry: 'somuacr.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/result/Dockerfile'
@@ -44,6 +44,7 @@ stages:
         tags: |
           $(tag)
           latest
+
 
 #***************************************************************************************
 #                        PUSH STAGE
