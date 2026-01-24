@@ -10,7 +10,7 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'a4d417d6-4b7d-4dbc-8702-15f88c83dc21'
+  dockerRegistryServiceConnection: '60869bc8-efcc-4cf9-875e-5ecebcfdab04'
   imageRepository: 'somuvotingapp'
   containerRegistry: 'somuacr.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/result/Dockerfile'
